@@ -1,4 +1,4 @@
-package tech.huakun.springbootgraphqltemplate.entity;
+package tech.huakun.v3.entity;
 
 import lombok.AllArgsConstructor;
 
@@ -8,3 +8,4 @@ public class LoginResponse {
     private Boolean success;
     private String msg;
 }
+

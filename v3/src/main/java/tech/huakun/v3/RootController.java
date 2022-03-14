@@ -1,11 +1,12 @@
-package tech.huakun.springbootgraphqltemplate;
+package tech.huakun.v3;
+
 
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
-import tech.huakun.springbootgraphqltemplate.entity.LoginInput;
-import tech.huakun.springbootgraphqltemplate.entity.LoginResponse;
+import tech.huakun.v3.entity.LoginInput;
+import tech.huakun.v3.entity.LoginResponse;
 
 @Controller
 public class RootController {
@@ -67,5 +68,3 @@ public class RootController {
         return new LoginResponse(true, input.getUsername() + " logged in successfully");
     }
 }
-
-

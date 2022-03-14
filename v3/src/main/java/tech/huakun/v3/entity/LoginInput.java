@@ -1,4 +1,5 @@
-package tech.huakun.springbootgraphqltemplate.entity;
+package tech.huakun.v3.entity;
+
 
 import lombok.Data;
 
@@ -7,3 +8,4 @@ public class LoginInput {
     private String username;
     private String password;
 }
+
