@@ -12,7 +12,7 @@ This repo contains 4 modules
   - Compatible with older spring boot versions (2.3.x, 2.6.x)
   - See [Tutorial](https://www.baeldung.com/spring-graphql)
   - See [Blog in Chinese](https://www.cnblogs.com/dionysun/p/12130440.html), and its [Code](https://github.com/dionylon/springboot-graphql-demo) (the libraries used were out-dated)
-  - My code in module [v2](./v2) is using the latest graphql libraries
+  - My code in module [v2](./v2) uses the latest graphql libraries at the time of writing
 - v3: Most Recommended (simplest) approach
   - Uses `@Cntroller`, `@QueryMapping`, `@MutationMapping`, etc. which is similar to rest mvc
   - Drawback: requires spring boot version >=2.7.0.M1 and <3.0.0-M1
