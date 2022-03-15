@@ -2,8 +2,10 @@ package tech.huakun.v2.resolvers;
 
 //import com.coxautodev.graphql.tools.GraphQLMutationResolver;
 //import com.coxautodev.graphql.tools.GraphQLQueryResolver;
+
 import graphql.kickstart.tools.GraphQLMutationResolver;
 import graphql.kickstart.tools.GraphQLQueryResolver;
+import graphql.schema.DataFetchingEnvironment;
 import org.springframework.stereotype.Component;
 import tech.huakun.v2.entity.LoginInput;
 import tech.huakun.v2.entity.LoginResponse;
@@ -12,8 +14,9 @@ import tech.huakun.v2.entity.LoginResponse;
 public class MutationResolver implements GraphQLQueryResolver, GraphQLMutationResolver {
     /**
      * mutation {
-     *   echoMutation(msg: "hello")
+     * echoMutation(msg: "hello")
      * }
+     *
      * @param msg
      * @return msg
      */
@@ -23,19 +26,20 @@ public class MutationResolver implements GraphQLQueryResolver, GraphQLMutationRe
 
     /**
      * mutation Login($input: LoginInput!) {
-     *   login(input: $input) {
-     *     msg
-     *     success
-     *   }
+     * login(input: $input) {
+     * msg
+     * success
      * }
-     *
+     * }
+     * <p>
      * Variable:
      * {
-     *   "input": {
-     *     "username": "huakun",
-     *     "password": "password"
-     *   }
+     * "input": {
+     * "username": "huakun",
+     * "password": "password"
      * }
+     * }
+     * <p>
      * @param input
      * @return LoginResponse
      */
