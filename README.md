@@ -30,24 +30,24 @@ Below I map Restful style `get` and `post` requests to different GraphQL Impleme
 ```java
 @RestController
 public class RootController {
-    @GetMapping("/greeting")
-    public String greeting() {
-        return "Hello World";
-    }
+  @GetMapping("/greeting")
+  public String greeting() {
+    return "Hello World";
+  }
 
-    /**
-     * http://localhost:8080/echo?msg=hello
-     */
-    @GetMapping("/echo")
-    public String echo(@RequestParam String msg) {
-        return msg;
-    }
+  /**
+    * http://localhost:8080/echo?msg=hello
+    */
+  @GetMapping("/echo")
+  public String echo(@RequestParam String msg) {
+    return msg;
+  }
 
-    /**
-     * http://localhost:8080/echo/message
-     */
-    @GetMapping("/echo/{msg}")
-    public String echoPathVar(@PathVariable String msg){return msg;}
+  /**
+    * http://localhost:8080/echo/message
+    */
+  @GetMapping("/echo/{msg}")
+  public String echoPathVar(@PathVariable String msg){return msg;}
 }
 ```
 
@@ -57,18 +57,18 @@ public class RootController {
 // GraphQLDataFetchers
 @Component
 public class GraphQLDataFetchers {
-    public DataFetcher getGreetingFetcher() {
-        return dataFetchingEnvironment -> {
-            return "hello world";
-        };
-    }
+  public DataFetcher getGreetingFetcher() {
+    return dataFetchingEnvironment -> {
+      return "hello world";
+    };
+  }
 
-    public DataFetcher getEchoFetcher() {
-        return dataFetchingEnvironment -> {
-            String msg = dataFetchingEnvironment.getArgument("msg");
-            return msg;
-        };
-    }
+  public DataFetcher getEchoFetcher() {
+    return dataFetchingEnvironment -> {
+      String msg = dataFetchingEnvironment.getArgument("msg");
+      return msg;
+    };
+  }
 }
 
 // GraphQLProvider
@@ -90,14 +90,13 @@ public class GraphQLProvider {
 ```java
 @Component
 public class QueryResolver implements GraphQLQueryResolver {
+  public String greeting() {
+    return "Hello World";
+  }
 
-    public String greeting() {
-        return "Hello World";
-    }
-
-    public String echo(String msg) {
-        return msg;
-    }
+  public String echo(String msg) {
+    return msg;
+  }
 }
 
 ```
@@ -107,15 +106,15 @@ public class QueryResolver implements GraphQLQueryResolver {
 ```java
 @Controller
 public class RootController {
-  	@QueryMapping
-		public String greeting() {
-        return "hello world";
-    }
+  @QueryMapping
+  public String greeting() {
+    return "hello world";
+  }
 
   @QueryMapping
-    public String echo(@Argument String msg) {
-        return msg;
-    }
+  public String echo(@Argument String msg) {
+    return msg;
+  }
 }
 ```
 
@@ -151,7 +150,7 @@ public class GraphQLProvider {
   private RuntimeWiring buildWiring() {
     return RuntimeWiring.newRuntimeWiring()
       .type(newTypeWiring("Mutation")
-            .dataFetcher("echoMutation", graphQLDataFetchers.getEchoMutationFetcher()));
+        .dataFetcher("echoMutation", graphQLDataFetchers.getEchoMutationFetcher()));
   }
 }
 ```
@@ -161,27 +160,27 @@ public class GraphQLProvider {
 ```java
 @Component
 public class MutationResolver implements GraphQLQueryResolver, GraphQLMutationResolver {
-    /**
-     * mutation {
-     * 	echoMutation(msg: "hello")
-     * }
-     */
-    public String echoMutation(String msg) {
-        return msg;
-    }
+  /**
+    * mutation {
+    * 	echoMutation(msg: "hello")
+    * }
+    */
+  public String echoMutation(String msg) {
+    return msg;
+  }
 
-    /**
-     * json request body
-     * {
-     *     "input": {
-     *				"username": "user",
-     *     		"password": "password"
-     *			}
-     * }
-     */
-	  public LoginResponse login(LoginInput input) {
-        return new LoginResponse(true, input.getUsername() + " logged in successfully");
-    }
+  /**
+    * json request body
+    * {
+    *     "input": {
+    *				"username": "user",
+    *     		"password": "password"
+    *			}
+    * }
+    */
+  public LoginResponse login(LoginInput input) {
+    return new LoginResponse(true, input.getUsername() + " logged in successfully");
+  }
 }
 ```
 
