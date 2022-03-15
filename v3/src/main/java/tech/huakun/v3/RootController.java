@@ -14,11 +14,11 @@ public class RootController {
      * query {
      * 	greeting
      * }
-     * @return "hello world"
+     * @return "Hello World"
      */
     @QueryMapping
     public String greeting() {
-        return "hello world";
+        return "Hello World";
     }
 
     /**

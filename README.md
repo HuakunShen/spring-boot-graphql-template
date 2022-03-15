@@ -90,10 +90,19 @@ public class GraphQLProvider {
 ```java
 @Component
 public class QueryResolver implements GraphQLQueryResolver {
+  /**
+   * query {
+   *     greeting
+   * }
+   */
   public String greeting() {
     return "Hello World";
   }
-
+  /**
+   * query {
+   *   echo (msg: "Hello World")
+   * }
+   */
   public String echo(String msg) {
     return msg;
   }
@@ -106,11 +115,24 @@ public class QueryResolver implements GraphQLQueryResolver {
 ```java
 @Controller
 public class RootController {
+  /**
+   * query {
+   * 	greeting
+   * }
+   * @return "Hello World"
+   */
   @QueryMapping
   public String greeting() {
     return "hello world";
   }
 
+  /**
+   * query {
+   *   echo(msg: "echo")
+   * }
+   * @param msg
+   * @return msg
+   */
   @QueryMapping
   public String echo(@Argument String msg) {
     return msg;
@@ -161,23 +183,23 @@ public class GraphQLProvider {
 @Component
 public class MutationResolver implements GraphQLQueryResolver, GraphQLMutationResolver {
   /**
-    * mutation {
-    * 	echoMutation(msg: "hello")
-    * }
-    */
+   * mutation {
+   * 	echoMutation(msg: "echo mutation")
+   * }
+   */
   public String echoMutation(String msg) {
     return msg;
   }
 
   /**
-    * json request body
-    * {
-    *     "input": {
-    *				"username": "user",
-    *     		"password": "password"
-    *			}
-    * }
-    */
+   * json request body
+   * {
+   *     "input": {
+   *				"username": "user",
+   *     		"password": "password"
+   *			}
+   * }
+   */
   public LoginResponse login(LoginInput input) {
     return new LoginResponse(true, input.getUsername() + " logged in successfully");
   }
@@ -190,10 +212,10 @@ public class MutationResolver implements GraphQLQueryResolver, GraphQLMutationRe
 @Controller
 public class RootController {
   /**
-  * mutation {
-  *   echoMutation(msg: "hello")
-  * }
-  */
+   * mutation {
+   *   echoMutation(msg: "hello")
+   * }
+   */
   @MutationMapping
   public String echoMutation(@Argument String msg) {
     return msg;
