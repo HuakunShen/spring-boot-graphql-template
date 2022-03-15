@@ -19,11 +19,7 @@ This repo contains 4 modules
   - See [Documentation](https://docs.spring.io/spring-graphql/docs/1.0.0-M5/reference/html/) and [samples](https://github.com/spring-projects/spring-graphql/tree/main/samples)
   - [Official sample I refered to](https://github.com/spring-projects/spring-graphql/tree/main/samples/webmvc-http-security)
 
-
-
 [v2](./v2) and [v3](./v3) (most) are the recommended approaches, with useful plugins like `graphiql`, `graphql playground`, `altair`, `voyager`.
-
-
 
 Below I map Restful style `get` and `post` requests to different GraphQL Implementations so that you can compare them side by side and choose the style you prefer.
 
@@ -115,15 +111,13 @@ public class RootController {
 		public String greeting() {
         return "hello world";
     }
-	  
+
   @QueryMapping
     public String echo(@Argument String msg) {
         return msg;
     }
 }
 ```
-
-
 
 ## Post Request (Mutation)
 
@@ -175,7 +169,7 @@ public class MutationResolver implements GraphQLQueryResolver, GraphQLMutationRe
     public String echoMutation(String msg) {
         return msg;
     }
-  	
+
     /**
      * json request body
      * {
@@ -205,7 +199,7 @@ public class RootController {
   public String echoMutation(@Argument String msg) {
     return msg;
   }
-  
+
   /**
    * json request body
    * {
@@ -221,16 +215,3 @@ public class RootController {
   }
 }
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
