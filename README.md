@@ -23,6 +23,32 @@ This repo contains 4 modules
 
 Below I map Restful style `get` and `post` requests to different GraphQL Implementations so that you can compare them side by side and choose the style you prefer.
 
+## GraphQL Schema Used in modules v1, v2, v3
+
+```gql
+type Query {
+    greeting: String!
+    echo(msg: String!): String!
+}
+
+input LoginInput {
+    username: String!
+    password: String!
+}
+
+type LoginResponse {
+    success: Boolean!
+    msg: String!
+}
+
+type Mutation {
+    echoMutation(msg: String!): String!
+    login(input: LoginInput!): LoginResponse!
+}
+```
+
+
+
 ## Get Request With or Without Argument/Param (GraphQL Query)
 
 ### Restful
@@ -146,6 +172,17 @@ public class RootController {
 
 ```java
 /**
+ * Form Data:
+ *     msg: message
+ * @param msg
+ * @return msg
+ */
+@PostMapping("/echo-post")
+public String echo_post(@RequestParam String msg) {
+    return msg;
+}
+
+/**
  * form-data
  *   username: user
  *   password: password
@@ -153,6 +190,18 @@ public class RootController {
 @PostMapping("/login")
 public String login(String username, String password) {
   return username + " logged in with password " + password;
+}
+
+/**
+ * json request body
+ * {
+ *     "username": "user",
+ *     "password": "password"
+ * }
+ */
+@PostMapping("/login-req-body")
+public String login_req_body(@RequestBody Map<String, String> payload) {
+    return payload.get("username") + " logged in with password " + payload.get("password");
 }
 ```
 
@@ -181,7 +230,7 @@ public class GraphQLProvider {
 
 ```java
 @Component
-public class MutationResolver implements GraphQLQueryResolver, GraphQLMutationResolver {
+public class MutationResolver implements GraphQLMutationResolver {
   /**
    * mutation {
    * 	echoMutation(msg: "echo mutation")
@@ -192,13 +241,21 @@ public class MutationResolver implements GraphQLQueryResolver, GraphQLMutationRe
   }
 
   /**
-   * json request body
-   * {
-   *     "input": {
-   *				"username": "user",
-   *     		"password": "password"
-   *			}
+   * mutation Login($input: LoginInput!) {
+   *   login(input: $input) {
+   *     msg
+   *     success
+   *   }
    * }
+   * Variable:
+   * {
+   *   "input": {
+   *     "username": "huakun",
+   *     "password": "password"
+   *   }
+   * }
+   * @param input
+   * @return LoginResponse
    */
   public LoginResponse login(LoginInput input) {
     return new LoginResponse(true, input.getUsername() + " logged in successfully");
@@ -222,17 +279,132 @@ public class RootController {
   }
 
   /**
-   * json request body
+   * mutation Login($input: LoginInput!) {
+   *   login(input: $input) {
+   *     msg
+   *     success
+   *   }
+   * }
+   *
+   * Variable:
    * {
-   *     "input": {
-   *				"username": "user",
-   *     		"password": "password"
-   *			}
+   *   "input": {
+   *     "username": "huakun",
+   *     "password": "password"
+   *   }
+   * }
+   * @param input LoginInput
+   * @return LoginResponse
+   */
+  @MutationMapping
+  public LoginResponse login(@Argument("input") LoginInput input) {
+      return new LoginResponse(true, input.getUsername() + " logged in successfully");
+  }
+}
+```
+
+
+## Migrate from Rest to V2
+
+Use `@Component` instead of `@RestController` for the class.
+
+The term resolver in graphql is equivalent to controller in spring boot MVC.
+
+Path variables and request parameters should be replaced by arguments in graphql.
+
+
+### Get
+#### Rest
+```java
+@RestController
+public class RootController {
+  @GetMapping("/echo")
+  public String echo(@RequestParam String msg) {
+    return msg;
+  }
+}
+```
+
+#### v2
+
+Remove all decorators, `@RequestParam`, `@GetMapping`, `@PostMapping`.
+
+Make sure the resolver class implements `GraphQLQueryResolver` interface.
+
+```java
+@Component
+public class QueryResolver implements GraphQLQueryResolver {
+  public String echo(String msg) {
+    return msg;
+  }
+}
+```
+
+### Post
+
+For regular post request such as the following
+
+```java
+@PostMapping("/echo-post")
+public String echo_post(@RequestParam String msg) {
+    return msg;
+}
+```
+
+It's exactly the same as what we did with Get Request/Graphql Query, remove `@PostMapping` and `@RequestParam` (if any). The class for mutation methods should implement `GraphQLMutationResolver` instead of `GraphQLQueryResolver`.
+
+```java
+public class MutationResolver implements GraphQLMutationResolver {
+  /**
+   * mutation {
+   * 	echoMutation(msg: "echo mutation")
    * }
    */
-  @PostMapping("/login-req-body")
-  public String login_req_body(@RequestBody Map<String, String> payload) {
-    return payload.get("username") + " logged in with password " + payload.get("password");
+  public String echoMutation(String msg) {
+    return msg;
   }
+}
+```
+
+For complex request body payload in json format
+
+#### Rest
+
+```java
+/**
+ * json request body
+ * {
+ *     "username": "user",
+ *     "password": "password"
+ * }
+ */
+@PostMapping("/login-req-body")
+public String login_req_body(@RequestBody Map<String, String> payload) {
+    return payload.get("username") + " logged in with password " + payload.get("password");
+}
+```
+
+#### Mutation
+
+```java
+/**
+ * mutation Login($input: LoginInput!) {
+ *   login(input: $input) {
+ *     msg
+ *     success
+ *   }
+ * }
+ * Variable:
+ * {
+ *   "input": {
+ *     "username": "huakun",
+ *     "password": "password"
+ *   }
+ * }
+ * @param input
+ * @return LoginResponse
+ */
+public LoginResponse login(LoginInput input) {
+  return new LoginResponse(true, input.getUsername() + " logged in successfully");
 }
 ```

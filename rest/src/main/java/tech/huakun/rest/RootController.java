@@ -30,6 +30,17 @@ public class RootController {
     public String echoPathVar(@PathVariable String msg){return msg;}
 
     /**
+     * Form Data:
+     *     msg: hello
+     * @param msg
+     * @return
+     */
+    @PostMapping("/echo-post")
+    public String echo_post(@RequestParam String msg) {
+        return msg;
+    }
+
+    /**
      * form-data
      *   username: user
      *   password: password

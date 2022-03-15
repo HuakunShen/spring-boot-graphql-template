@@ -11,10 +11,10 @@ import tech.huakun.v2.entity.LoginInput;
 import tech.huakun.v2.entity.LoginResponse;
 
 @Component
-public class MutationResolver implements GraphQLQueryResolver, GraphQLMutationResolver {
+public class MutationResolver implements GraphQLMutationResolver {
     /**
      * mutation {
-     * echoMutation(msg: "hello")
+     *  echoMutation(msg: "hello")
      * }
      *
      * @param msg
@@ -26,20 +26,18 @@ public class MutationResolver implements GraphQLQueryResolver, GraphQLMutationRe
 
     /**
      * mutation Login($input: LoginInput!) {
-     * login(input: $input) {
-     * msg
-     * success
+     *   login(input: $input) {
+     *     msg
+     *     success
+     *   }
      * }
-     * }
-     * <p>
      * Variable:
      * {
-     * "input": {
-     * "username": "huakun",
-     * "password": "password"
+     *   "input": {
+     *     "username": "huakun",
+     *     "password": "password"
+     *   }
      * }
-     * }
-     * <p>
      * @param input
      * @return LoginResponse
      */
