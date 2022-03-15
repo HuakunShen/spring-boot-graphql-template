@@ -62,16 +62,16 @@ public class RootController {
   }
 
   /**
-    * http://localhost:8080/echo?msg=hello
-    */
+   * http://localhost:8080/echo?msg=hello
+   */
   @GetMapping("/echo")
   public String echo(@RequestParam String msg) {
     return msg;
   }
 
   /**
-    * http://localhost:8080/echo/message
-    */
+   * http://localhost:8080/echo/message
+   */
   @GetMapping("/echo/{msg}")
   public String echoPathVar(@PathVariable String msg){return msg;}
 }

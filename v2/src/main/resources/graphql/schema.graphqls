@@ -1,6 +1,16 @@
+type Author {
+    name: String
+}
+
+type Book {
+    name: String
+    author: Author!
+}
+
 type Query {
     greeting: String!
     echo(msg: String!): String!
+    getBook(name: String!): Book
 }
 
 input LoginInput {

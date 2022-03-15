@@ -1,10 +1,11 @@
-package tech.huakun.v3;
+package tech.huakun.v3.controller;
 
 
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
+import tech.huakun.v3.entity.Book;
 import tech.huakun.v3.entity.LoginInput;
 import tech.huakun.v3.entity.LoginResponse;
 
@@ -32,6 +33,24 @@ public class RootController {
     public String echo(@Argument String msg) {
         return msg;
     }
+
+    /**
+     * query {
+     *   getBook(name: "harry potter") {
+     *     name
+     *     author {
+     *       name
+     *     }
+     *   }
+     * }
+     * @param name
+     * @return Book with name = name
+     */
+    @QueryMapping
+    public Book getBook(@Argument String name) {
+        return new Book(name);
+    }
+
 
     /**
      * mutation {
