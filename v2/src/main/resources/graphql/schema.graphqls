@@ -1,0 +1,19 @@
+type Query {
+    greeting: String!
+    echo(msg: String!): String!
+}
+
+input LoginInput {
+    username: String!
+    password: String!
+}
+
+type LoginResponse {
+    success: Boolean!
+    msg: String!
+}
+
+type Mutation {
+    echoMutation(msg: String!): String!
+    login(input: LoginInput!): LoginResponse!
+}
